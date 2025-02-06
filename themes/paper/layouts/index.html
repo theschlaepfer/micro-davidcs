@@ -1,0 +1,33 @@
+{{ define "main" }}
+  {{ .Content }}
+  {{ $posts := where site.Pages "Type" "post" }}
+  {{ $paginator := .Paginate $posts 7 }}
+  {{ range $paginator.Pages }}
+    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+    <section>{{ .Content }}</section>
+    <footer>
+        <a href="{{ .RelPermalink }}">{{ .Date.Format "January 2, 2006" }}</a>
+    </footer>
+    <hr class="index-divider">
+  {{ end }}
+  {{ if gt $paginator.TotalPages 1 }}
+  <nav class="mt-14 flex">
+    {{ if $paginator.HasPrev }}
+    <a class="btn" href="{{ $paginator.Prev.URL }}">← {{ i18n "prev_page" }}</a>
+    {{ end }}<!---->
+    {{ if $paginator.HasNext }}
+    <a class="btn ml-auto" href="{{ $paginator.Next.URL }}"
+      >{{ i18n "next_page" }} →</a
+    >
+    {{ end }}
+  </nav>
+  {{ end }}
+  <!--{{ range $posts }}
+    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+    <section>{{ .Content }}</section>
+    <footer>
+        <a href="{{ .RelPermalink }}">{{ .Date.Format "January 2, 2006" }}</a>
+    </footer>
+    <hr class="index-divider">
+  {{ end }}-->
+{{ end }}
